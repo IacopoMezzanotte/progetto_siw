@@ -60,4 +60,5 @@ public class UserService {
     public List<User> getMemebers(Project project) {
 		return this.userRepository.findByVisibleProjects(project);
 	}
+
 }

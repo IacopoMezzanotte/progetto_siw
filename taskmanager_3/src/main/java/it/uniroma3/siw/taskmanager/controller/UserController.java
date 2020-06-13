@@ -1,6 +1,7 @@
 package it.uniroma3.siw.taskmanager.controller;
 
 import it.uniroma3.siw.taskmanager.controller.session.SessionData;
+
 import it.uniroma3.siw.taskmanager.controller.validation.CredentialsValidator;
 import it.uniroma3.siw.taskmanager.controller.validation.UserValidator;
 import it.uniroma3.siw.taskmanager.model.Credentials;
@@ -12,6 +13,7 @@ import it.uniroma3.siw.taskmanager.service.UserService;
 import java.util.List;
 
 import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -118,10 +120,12 @@ public class UserController {
 		Credentials credentials = this.sessionData.getLoggedCredentials();
 		model.addAttribute("user", loggedUser);
 		model.addAttribute("credentials", credentials);
+		System.out.println(credentials.toString());
 		return "userUpdate";
+		
 	}
 	
-	@RequestMapping(value = { "/users/me/update" }, method = RequestMethod.POST)
+	@RequestMapping(value = {"/users/me/update"}, method = RequestMethod.POST)
 	    public String registerUser(@Valid @ModelAttribute("user") User newUser,
 	                               BindingResult userBindingResult,
 	                               @Valid @ModelAttribute("credentials") Credentials newCredentials,
@@ -131,20 +135,23 @@ public class UserController {
 	        // validate user and credentials fields
 	        this.userValidator.validate(newUser, userBindingResult);
 	        this.credentialsValidator.validate(newCredentials, credentialsBindingResult);
-
+	        
 	        // if neither of them had invalid contents, store the User and the Credentials into the DB
 	        if(!userBindingResult.hasErrors() && ! credentialsBindingResult.hasErrors()) {
 	            // set the user and store the credentials;
 	            // this also stores the User, thanks to Cascade.ALL policy
-	        	Credentials credentials = this.sessionData.getLoggedCredentials();
-	        	credentials = newCredentials;
-	        	credentials.setUser(newUser);
-	            credentialsService.saveCredentials(credentials);
-	            User loggedUser = sessionData.getLoggedUser();
-	            loggedUser = newUser;
-	            userService.saveUser(loggedUser);
-	            model.addAttribute("user", loggedUser);
-	            return "redirect:/home";
+	          
+	           Credentials credentialsDb= credentialsService.getCredentials(newCredentials.getId());
+	           User userDb =(credentialsDb.getUser());
+	           userDb.setFirstName(newUser.getFirstName());
+	           userDb.setLastName(newUser.getLastName());
+	           credentialsDb.setUser(userDb);
+	           credentialsDb.setUserName(newCredentials.getUserName());
+	           credentialsDb.setPassword(newCredentials.getPassword());
+	           credentialsService.saveCredentials(credentialsDb);
+	           User loggedUser =sessionData.getLoggedUser();
+	           model.addAttribute("user", loggedUser);
+	           return "redirect:/home";
 	        }
 	        return "userUpdate";
 	    }

@@ -68,4 +68,9 @@ public class ProjectService {
 			User loggedUser) {
 		return this.projectRepository.findByOwner(loggedUser);
 	}
+    
+    @Transactional
+    public void deleteById(Long id) {
+    	this.projectRepository.deleteById(id);
+    }
 }
