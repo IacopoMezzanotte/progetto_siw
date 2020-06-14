@@ -53,6 +53,7 @@ public class ProjectController {
 
 	@RequestMapping(value = {"/projects/{projectId}" }, method = RequestMethod.GET)
 	public String project(Model model, @PathVariable Long projectId) {
+
 		Project project = projectService.getProject(projectId);
 		User loggedUser = sessionData.getLoggedUser();
 
@@ -94,29 +95,42 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = {"/projects/{id}/share"} , method = RequestMethod.GET)
-	public String shareWith(Model model, @PathVariable Long id) {
+	public String shareWith(Model model, @PathVariable("id") Long id) {
 		String userName = new String();
+		Project project = projectService.getProject(id);
+		System.out.println(project.toString());
+		model.addAttribute("project", project);
 		model.addAttribute("userName", userName);
 		return "shareWith" ;
 	}
 
 	@RequestMapping(value = {"/projects/{id}/share"}, method = RequestMethod.POST)
-	public String ShareWith(@ModelAttribute("userName") String userName, Model model, @PathVariable("id") Long id) {
+	public String shareWith(@ModelAttribute("userName") String userName,
+			Model model, @PathVariable("id") Long id) {
+		System.out.println(id.toString());
+		System.out.println(userName);
 		Project projectShared = projectService.getProject(id);
 		Credentials credentials = credentialsService.getCredentials(userName);
-		User userToShare = credentials.getUser();
-		projectShared.addMember(userToShare);
-		userToShare.addProject(projectShared);
-		projectService.saveProject(projectShared);
-		userService.saveUser(userToShare);
-		return "redirect:/home";
+		if(credentials == null) {
+			System.out.println("QUA CI ARRIVI?");
+			return "redirect:/projects/{id}/share";
+		}
+		else {
+			User userToShare = credentials.getUser();
+			projectService.shareProjectWithUser(projectShared, userToShare);
+			userToShare.addProject(projectShared);
+			userService.saveUser(userToShare);
+			User loggedUser = sessionData.getLoggedUser();
+			model.addAttribute("user", loggedUser);
+			return "home";
+		}
 	}
-	
+
 	@RequestMapping(value = {"/projects/{id}/elimina"} , method = RequestMethod.GET)
 	public String elimina(Model model ,  @PathVariable("id") Long id ) {
 		this.projectService.deleteById(id);
 		return "redirect:/projects/";
-		
+
 	}
 }
 

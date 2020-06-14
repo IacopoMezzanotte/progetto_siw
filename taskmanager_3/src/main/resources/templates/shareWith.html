@@ -8,15 +8,13 @@
 <body>
 
 	<h1>Share a Project</h1>
-	<form id="shareProjectForm" th:action="@{/projects/${project.id}/share}"
-		method="POST">
+	
+	<form id="shareProjectForm" th:action= "@{'/projects/' + ${project.id} + '/share'}"  method="POST">
 
 		<table>
 			<tr>
 				<td><label for="userNameInput">Username</label>
-				<td><input id=userNameInput type="text"
-					th:field="${userName}" placeholder="USERNAME"
-					required /></td>
+				<td><input id=userNameInput type="text" placeholder="USERNAME" th:name = "userName" required   /></td>
 			</tr>
 		</table>
 		<button type="submit">Share</button>
