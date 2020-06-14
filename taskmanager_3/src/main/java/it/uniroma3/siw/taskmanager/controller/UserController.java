@@ -125,12 +125,12 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping(value = {"/users/me/update"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/users/me/update/{id}"}, method = RequestMethod.POST)
 	    public String registerUser(@Valid @ModelAttribute("user") User newUser,
 	                               BindingResult userBindingResult,
 	                               @Valid @ModelAttribute("credentials") Credentials newCredentials,
 	                               BindingResult credentialsBindingResult,
-	                               Model model) {
+	                               Model model, @PathVariable("id") Long credentialsId) {
 
 	        // validate user and credentials fields
 	        this.userValidator.validate(newUser, userBindingResult);
@@ -141,7 +141,7 @@ public class UserController {
 	            // set the user and store the credentials;
 	            // this also stores the User, thanks to Cascade.ALL policy
 	          
-	           Credentials credentialsDb= credentialsService.getCredentials(newCredentials.getId());
+	           Credentials credentialsDb= credentialsService.getCredentials(credentialsId);
 	           User userDb =(credentialsDb.getUser());
 	           userDb.setFirstName(newUser.getFirstName());
 	           userDb.setLastName(newUser.getLastName());

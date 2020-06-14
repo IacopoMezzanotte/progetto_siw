@@ -10,7 +10,7 @@
 
 <h1>Update logged User</h1>
 <form id = "registerUserForm"
-      th:action="@{/users/me/update}"
+      th:action="@{'/users/me/update/' + ${credentials.id}}"
       method="POST">
 
     <table>
