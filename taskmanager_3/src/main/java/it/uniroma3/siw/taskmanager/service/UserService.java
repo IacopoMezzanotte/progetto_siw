@@ -1,6 +1,7 @@
 package it.uniroma3.siw.taskmanager.service;
 import it.uniroma3.siw.taskmanager.model.Project;
 import it.uniroma3.siw.taskmanager.model.User;
+import it.uniroma3.siw.taskmanager.repository.ProjectRepository;
 import it.uniroma3.siw.taskmanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,6 +20,9 @@ public class UserService {
 
     @Autowired
     protected UserRepository userRepository;
+	
+    @Autowired
+    protected ProjectRepository projectRepository;
 
     /**
      * This method retrieves a User from the DB based on its ID.
@@ -59,6 +63,11 @@ public class UserService {
 	@Transactional
     public List<User> getMemebers(Project project) {
 		return this.userRepository.findByVisibleProjects(project);
+	}
+
+	public List<Project> getVisibleProjects(User loggedUser) {
+		List<Project> visibleProjects = projectRepository.findByMembers(loggedUser);
+		return visibleProjects ;
 	}
 
 }

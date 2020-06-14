@@ -132,6 +132,16 @@ public class ProjectController {
 		return "redirect:/projects/";
 
 	}
+	
+	@RequestMapping (value = {"/sharedProjects"} , method = RequestMethod.GET)
+	public String sharedProjects(Model model) {
+		User loggedUser = sessionData.getLoggedUser();
+		List<Project> visibleProjects = userService.getVisibleProjects(loggedUser);
+		System.out.println(visibleProjects.toString());
+		model.addAttribute("visibleProjects" , visibleProjects);
+		return "sharedProjects";
+		
+	}
 }
 
 
