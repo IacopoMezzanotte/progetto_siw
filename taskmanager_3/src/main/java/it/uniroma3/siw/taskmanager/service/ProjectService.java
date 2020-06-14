@@ -1,10 +1,10 @@
 package it.uniroma3.siw.taskmanager.service;
 
 import it.uniroma3.siw.taskmanager.model.Project;
+
 import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

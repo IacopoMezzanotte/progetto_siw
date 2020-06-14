@@ -142,15 +142,13 @@ public class UserController {
 	            // this also stores the User, thanks to Cascade.ALL policy
 	          
 	           Credentials credentialsDb= credentialsService.getCredentials(credentialsId);
-	           User userDb =(credentialsDb.getUser());
+	           User userDb = credentialsDb.getUser();
 	           userDb.setFirstName(newUser.getFirstName());
 	           userDb.setLastName(newUser.getLastName());
 	           credentialsDb.setUser(userDb);
 	           credentialsDb.setUserName(newCredentials.getUserName());
 	           credentialsDb.setPassword(newCredentials.getPassword());
 	           credentialsService.saveCredentials(credentialsDb);
-	           User loggedUser =sessionData.getLoggedUser();
-	           model.addAttribute("user", loggedUser);
 	           return "redirect:/home";
 	        }
 	        return "userUpdate";
