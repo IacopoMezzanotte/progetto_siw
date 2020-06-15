@@ -18,6 +18,7 @@
 		</ul>
 	</div>
 	<h3>Tasks</h3>
+	<a th:href = "'/projects/' + ${project.id} + '/addTask'">add a Task</a>
 	<ul>
 		<li th:each="task : ${project.tasks}">
 			<div th:text="${task.name}"></div>

@@ -18,6 +18,7 @@ import it.uniroma3.siw.taskmanager.controller.session.SessionData;
 import it.uniroma3.siw.taskmanager.controller.validation.ProjectValidator;
 import it.uniroma3.siw.taskmanager.model.Credentials;
 import it.uniroma3.siw.taskmanager.model.Project;
+import it.uniroma3.siw.taskmanager.model.Task;
 import it.uniroma3.siw.taskmanager.model.User;
 import it.uniroma3.siw.taskmanager.service.CredentialsService;
 import it.uniroma3.siw.taskmanager.service.ProjectService;
@@ -98,7 +99,6 @@ public class ProjectController {
 	public String shareWith(Model model, @PathVariable("id") Long id) {
 		String userName = new String();
 		Project project = projectService.getProject(id);
-		System.out.println(project.toString());
 		model.addAttribute("project", project);
 		model.addAttribute("userName", userName);
 		return "shareWith" ;
@@ -107,12 +107,10 @@ public class ProjectController {
 	@RequestMapping(value = {"/projects/{id}/share"}, method = RequestMethod.POST)
 	public String shareWith(@ModelAttribute("userName") String userName,
 			Model model, @PathVariable("id") Long id) {
-		System.out.println(id.toString());
-		System.out.println(userName);
+
 		Project projectShared = projectService.getProject(id);
 		Credentials credentials = credentialsService.getCredentials(userName);
 		if(credentials == null) {
-			System.out.println("QUA CI ARRIVI?");
 			return "redirect:/projects/{id}/share";
 		}
 		else {
@@ -120,9 +118,7 @@ public class ProjectController {
 			projectService.shareProjectWithUser(projectShared, userToShare);
 			userToShare.addProject(projectShared);
 			userService.saveUser(userToShare);
-			User loggedUser = sessionData.getLoggedUser();
-			model.addAttribute("user", loggedUser);
-			return "home";
+			return "redirect:/home";
 		}
 	}
 
@@ -132,7 +128,7 @@ public class ProjectController {
 		return "redirect:/projects/";
 
 	}
-	
+
 	@RequestMapping (value = {"/sharedProjects"} , method = RequestMethod.GET)
 	public String sharedProjects(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
@@ -140,8 +136,26 @@ public class ProjectController {
 		System.out.println(visibleProjects.toString());
 		model.addAttribute("visibleProjects" , visibleProjects);
 		return "sharedProjects";
-		
+
 	}
+
+	@RequestMapping (value = {"/projects/{id}/addTask"} , method = RequestMethod.GET)
+	public String addTask(Model model, @PathVariable("id") Long id) {
+		Task task = new Task();
+		Project project = projectService.getProject(id);
+		model.addAttribute("task", task);
+		model.addAttribute("project", project);
+		return "taskForm";
+
+	}
+
+	@RequestMapping(value = {"/projects/{id}/addTask"}, method = RequestMethod.POST)
+	public String addTask(@ModelAttribute("task") Task task,
+			Model model, @PathVariable("id") Long id) {
+		Project project = projectService.getProject(id);
+		project.addTask(task);
+		projectService.saveProject(project);
+		return "redirect:/home";
+	}
+
 }
-
-

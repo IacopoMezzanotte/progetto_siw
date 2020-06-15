@@ -125,6 +125,10 @@ public class Project {
 	public void setTasks(Set<Task> tasks) {
 		this.tasks = tasks;
 	}
+	
+	public void addTask(Task task) {
+		this.tasks.add(task);
+	}
 
 	@Override
 	public String toString() {
