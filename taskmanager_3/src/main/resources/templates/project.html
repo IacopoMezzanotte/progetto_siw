@@ -24,10 +24,23 @@
 	<ul>
 		<li th:each="task : ${project.tasks}">
 			<div th:text="${task.name}"></div>
-			<div th:text="${task.description}" style="color: blue"></div>
-
+			<div th:text="${task.description}" style="color: purple"></div>
+			<a th:href = "'/projects/' + ${project.id} + '/updateTask/' + ${task.id}">Update</a>
+			<a th:href = "'/projects/' + ${project.id} + '/deleteTask/' + ${task.id}">Delete</a>
+			
 		</li>
 	</ul>
+	
+	<h3>Tags</h3>
+	<a th:href="'/projects/' + ${project.id} + '/addTag'">add a Tag</a>
+	<ul>
+		<li th:each="tag : ${project.tags}">
+			<div th:text="${tag.name}"></div>
+			<div th:text="${tag.color}" th:style="'color: ' + ${tag.color}"></div>
+			<div th:text="${tag.description}" th:style="'color: grey'"></div>
+		</li>
+	</ul>
+	
 	<a th:href="'/projects/' + ${project.id} + '/share'">Share With</a>
 </body>
 <div>

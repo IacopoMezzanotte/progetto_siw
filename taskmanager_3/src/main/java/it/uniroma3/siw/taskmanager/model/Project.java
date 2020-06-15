@@ -57,14 +57,15 @@ public class Project {
 	private Set<Task> tasks;
 	
 
-	@OneToMany(fetch = FetchType.EAGER)       // whenever a Project is retrieved, always retrieve its tasks too)   // tutte le operazioni Crud di project verranno applicate anche a task
+	@OneToMany(fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL)       // whenever a Project is retrieved, always retrieve its tasks too)   // tutte le operazioni Crud di project verranno applicate anche a task
 	@JoinColumn(name="project_id")
-	private Set<Tag> tag;                    //PERCHé I SET STUDIA
+	private Set<Tag> tags;                    //PERCHé I SET STUDIA
 
 	public Project() {
 		this.members = new ArrayList<>();
 		this.tasks = new HashSet<>();
-		this.tag = new HashSet<>();
+		this.tags = new HashSet<>();
 	}
 
 	public Project(String name, String description) {
@@ -153,5 +154,17 @@ public class Project {
 	@Override
 	public int hashCode() {
 		return Objects.hash(name);
+	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+	
+	public void addTag(Tag tag) {
+		this.tags.add(tag);
 	}
 }
