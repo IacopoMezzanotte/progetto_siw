@@ -1,45 +1,56 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>TaskManager</title>
+<title>TaskManager</title>
 </head>
 
 <body>
 
-<h1>Update logged User</h1>
-<form id = "registerUserForm"
-      th:action="@{'/users/me/update/' + ${credentials.id}}"
-      method="POST">
+	<h1>Update logged User</h1>
+	<form id="registerUserForm"
+		th:action="@{'/users/me/update/' + ${credentialsForm.id}}" method="POST">
 
-    <table>
-        <tr>
-            <td><label for="userNameInput">Username</label>
-            <td><input id=userNameInput type="text" th:field="${credentials.userName}" placeholder="USERNAME" required/></td>
-            <td th:if="${#fields.hasErrors('credentials.userName')}" th:errors="${credentials.userName}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td><label for="passwordInput">Password</label></td>
-            <td><input id=passwordInput type="password" th:field="${credentials.password}" placeholder="PASSWORD"/></td>
-            <td th:if="${#fields.hasErrors('credentials.password')}" th:errors="${credentials.password}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td><label for="firstNameInput">First Name</label></td>
-            <td><input id=firstNameInput type="text" th:field="${user.firstName}" placeholder="FIRST NAME"/></td>
-            <td th:if="${#fields.hasErrors('user.firstName')}" th:errors="${user.firstName}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td><label for="lastNameInput">Last Name</label></td>
-            <td><input id=lastNameInput type="text" th:field="${user.lastName}" placeholder="LAST NAME"/></td>
-            <td th:if="${#fields.hasErrors('user.lastName')}" th:errors="${user.lastName}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Save</button>
-            </td>
-        </tr>
-    </table>
-</form>
+		<table>
+			<tr>
+				<td><label for="userNameInput">Username</label>
+				<td><input id=userNameInput type="text"
+					th:field="${credentialsForm.userName}" placeholder="USERNAME" required /></td>
+				<td th:if="${#fields.hasErrors('credentialsForm.userName')}"
+					th:errors="${credentialsForm.userName}" th:style="'Color:red'"></td>
+			</tr>
+			<tr>
+				<td><label for="passwordInput">Password</label></td>
+				<td><input id=passwordInput type="password"
+					th:field="${credentialsForm.password}" placeholder="PASSWORD" /></td>
+				<td th:if="${#fields.hasErrors('credentialsForm.password')}"
+					th:errors="${credentialsForm.password}" th:style="'Color:red'"></td>
+			</tr>
+			<tr>
+				<td><label for="firstNameInput">First Name</label></td>
+				<td><input id=firstNameInput type="text"
+					th:field="${userForm.firstName}" placeholder="FIRST NAME" /></td>
+				<td th:if="${#fields.hasErrors('userForm.firstName')}"
+					th:errors="${userForm.firstName}" th:style="'Color:red'"></td>
+			</tr>
+			<tr>
+				<td><label for="lastNameInput">Last Name</label></td>
+				<td><input id=lastNameInput type="text"
+					th:field="${userForm.lastName}" placeholder="LAST NAME" /></td>
+				<td th:if="${#fields.hasErrors('userForm.lastName')}"
+					th:errors="${userForm.lastName}" th:style="'Color:red'"></td>
+			</tr>
+			<tr>
+				<td>
+					<button type="submit">Save</button>
+				</td>
+			</tr>
+		</table>
+		<div>
+			<footer>
+				<a th:href="@{/home}">Home</a>
+			</footer>
+		</div>
+	</form>
 </body>
 </html>

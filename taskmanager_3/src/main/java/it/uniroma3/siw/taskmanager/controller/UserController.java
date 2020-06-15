@@ -118,17 +118,17 @@ public class UserController {
 	public String userForm(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
 		Credentials credentials = this.sessionData.getLoggedCredentials();
-		model.addAttribute("user", loggedUser);
-		model.addAttribute("credentials", credentials);
+		model.addAttribute("userForm", loggedUser);
+		model.addAttribute("credentialsForm", credentials);
 		System.out.println(credentials.toString());
 		return "userUpdate";
 		
 	}
 	
 	@RequestMapping(value = {"/users/me/update/{id}"}, method = RequestMethod.POST)
-	    public String registerUser(@Valid @ModelAttribute("user") User newUser,
+	    public String registerUser(@Valid @ModelAttribute("userForm") User newUser,
 	                               BindingResult userBindingResult,
-	                               @Valid @ModelAttribute("credentials") Credentials newCredentials,
+	                               @Valid @ModelAttribute("credentialsForm") Credentials newCredentials,
 	                               BindingResult credentialsBindingResult,
 	                               Model model, @PathVariable("id") Long credentialsId) {
 

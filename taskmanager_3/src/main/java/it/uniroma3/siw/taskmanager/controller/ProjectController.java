@@ -91,17 +91,22 @@ public class ProjectController {
 			this.projectService.saveProject(project);
 			return "redirect:/projects/" + project.getId();
 		}
-		model.addAttribute("loggedUser", loggedUser);
 		return "addProject";
 	}
 
 	@RequestMapping(value = {"/projects/{id}/share"} , method = RequestMethod.GET)
 	public String shareWith(Model model, @PathVariable("id") Long id) {
-		String userName = new String();
+		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(id);
-		model.addAttribute("project", project);
-		model.addAttribute("userName", userName);
-		return "shareWith" ;
+		if(loggedUser.equals(project.getOwner())) {
+			String userName = new String();
+			model.addAttribute("project", project);
+			model.addAttribute("userName", userName);
+
+			return "shareWith" ;
+		}
+		else
+			return "redirect:/home";
 	}
 
 	@RequestMapping(value = {"/projects/{id}/share"}, method = RequestMethod.POST)
@@ -118,7 +123,7 @@ public class ProjectController {
 			projectService.shareProjectWithUser(projectShared, userToShare);
 			userToShare.addProject(projectShared);
 			userService.saveUser(userToShare);
-			return "redirect:/home";
+			return "redirect:/projects/{id}";
 		}
 	}
 
@@ -155,7 +160,29 @@ public class ProjectController {
 		Project project = projectService.getProject(id);
 		project.addTask(task);
 		projectService.saveProject(project);
-		return "redirect:/home";
+		return "redirect:/projects/{id}";
 	}
-
+	
+	@RequestMapping(value = {"/projects/{id}/update"}, method = RequestMethod.GET)
+	public String updateProject(Model model, @PathVariable("id") Long id) {
+		Project project = projectService.getProject(id);
+		model.addAttribute("projectForm", project);
+		return "updateProject";
+		
+	}
+	
+	@RequestMapping(value = {"/projects/{id}/update"}, method = RequestMethod.POST )
+	public String updateProject(@Valid @ModelAttribute("projectForm")Project newProject,
+			BindingResult projectBindingResult,Model model, @PathVariable("id") Long id) {
+			projectValidator.validate(newProject, projectBindingResult);
+			if(!projectBindingResult.hasErrors()) {
+				Project project = projectService.getProject(id);
+				project.setName(newProject.getName());
+				project.setDescription(newProject.getDescription());
+				projectService.saveProject(project);
+				return "redirect:/projects/{id}";	
+			}
+			
+			return "updateProject";
+}
 }

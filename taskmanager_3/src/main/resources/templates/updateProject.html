@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>Register new Project</h1>
-	<form id="registerUserForm" th:action="@{/projects/add}"
+	<form id="updateUserForm" th:action="@{'/projects/' +${projectForm.id}+ '/update'}"
 		th:object="${projectForm}" method="POST">
 		<table>
 			<tr>
