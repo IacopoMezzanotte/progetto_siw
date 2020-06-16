@@ -24,10 +24,11 @@
 				</div>
 			</li>
 		</ul>
-		</div>
-		<a th:href = "'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addTag/'">addTag</a>
-		
-		<div th:if="${task.myTags.size()>0}">
+	</div>
+	<a
+		th:href="'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addTag/'">addTag</a>
+
+	<div th:if="${task.myTags.size()>0}">
 		<h3>Tags:</h3>
 		<ul>
 			<li th:each="tag : ${task.myTags}">
@@ -39,7 +40,10 @@
 			</li>
 		</ul>
 	</div>
-	<a th:href = "'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addComment/'">addComment</a>
+	<h3>Commento:</h3>
+	<div th:text="${task.commento}"></div>
+	<a
+		th:href="'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addComment/'">addComment</a>
 </body>
 <div>
 	<footer>

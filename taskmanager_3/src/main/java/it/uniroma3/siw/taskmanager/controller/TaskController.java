@@ -177,7 +177,7 @@ public class TaskController {
 
 	}
 	
-	@RequestMapping( value = {"/projects/{project.id}/task/{task.id}/addComment"}, method = RequestMethod.GET)
+	@RequestMapping( value = {"/projects/{projectId}/task/{taskId}/addComment"}, method = RequestMethod.GET)
 	public String addComment(Model model, @PathVariable("projectId") Long projectId,
 			@PathVariable("taskId") Long taskId) {
 		Project project = projectService.getProject(projectId);
@@ -193,11 +193,11 @@ public class TaskController {
 		}
 		return "redirect:/projects/{projectId}/task/{taskId}";
 }
-	@RequestMapping( value = {"/projects/{project.id}/task/{task.id}/addComment"}, method = RequestMethod.POST)
+	@RequestMapping( value = {"/projects/{projectId}/task/{taskId}/addComment"}, method = RequestMethod.POST)
 	public String addComment(@ModelAttribute("commento") String commento, Model model, @PathVariable("projectId") Long projectId,
 			@PathVariable("taskId") Long taskId) {
 		Task task = taskService.getTask(taskId);
-		task.addCommento(commento);
+		task.setCommento(commento);
 		taskService.saveTask(task);
 		return "redirect:/projects/{projectId}/task/{taskId}" ;
 		
