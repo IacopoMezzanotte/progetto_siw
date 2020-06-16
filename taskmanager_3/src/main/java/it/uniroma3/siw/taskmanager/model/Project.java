@@ -2,6 +2,7 @@ package it.uniroma3.siw.taskmanager.model;
 
 import javax.persistence.*;
 
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -60,7 +61,7 @@ public class Project {
 	@OneToMany(fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL)       // whenever a Project is retrieved, always retrieve its tasks too)   // tutte le operazioni Crud di project verranno applicate anche a task
 	@JoinColumn(name="project_id")
-	private Set<Tag> tags;                    //PERCHé I SET STUDIA
+	private Set<Tag> tags;                   
 
 	public Project() {
 		this.members = new ArrayList<>();
@@ -120,7 +121,7 @@ public class Project {
 	}
 
 	public Set<Task> getTasks() {
-		return tasks;
+		return this.tasks;
 	}
 
 	public void setTasks(Set<Task> tasks) {
@@ -167,4 +168,5 @@ public class Project {
 	public void addTag(Tag tag) {
 		this.tags.add(tag);
 	}
+	
 }

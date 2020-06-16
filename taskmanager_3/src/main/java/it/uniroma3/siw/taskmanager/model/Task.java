@@ -1,10 +1,10 @@
 package it.uniroma3.siw.taskmanager.model;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A Task is a unitary activity managed by the TaskManager.
@@ -31,8 +31,11 @@ public class Task {
 	/**
 	 * Description for this task
 	 */
-	@Column
+	@Column(length = 1000)
 	private String description;
+	
+	@Column(length = 500)
+	private List<String> commenti;
 
 	/**
 	 * Boolean flag specifying whether this Task is completed or not
@@ -54,10 +57,17 @@ public class Task {
 
 	@ManyToMany
 	private List<Tag> myTags;
+	
+	@ManyToMany
+	private List<User> workers;
 
 	public Task() {
 		this.myTags = new ArrayList<>();
+		this.workers = new ArrayList<>();
+		this.commenti = new ArrayList<>();
 	}
+	
+	
 
 	public Task(String name,
 			String description,
@@ -137,26 +147,47 @@ public class Task {
 	public void setLastUpdateTimestamp(LocalDateTime lastUpdateTimestamp) {
 		this.lastUpdateTimestamp = lastUpdateTimestamp;
 	}
-	
+
 	public void addTag(Tag tag) {
 		if(!myTags.contains(tag))
 			this.myTags.add(tag);
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Task task = (Task) o;
-		return completed == task.completed &&
-				Objects.equals(name, task.name) &&
-				Objects.equals(creationTimestamp, task.creationTimestamp) &&
-				Objects.equals(lastUpdateTimestamp, task.lastUpdateTimestamp);
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Task other = (Task) obj;
+		if (creationTimestamp == null) {
+			if (other.creationTimestamp != null)
+				return false;
+		} else if (!creationTimestamp.equals(other.creationTimestamp))
+			return false;
+		if (lastUpdateTimestamp == null) {
+			if (other.lastUpdateTimestamp != null)
+				return false;
+		} else if (!lastUpdateTimestamp.equals(other.lastUpdateTimestamp))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, completed, creationTimestamp, lastUpdateTimestamp);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((creationTimestamp == null) ? 0 : creationTimestamp.hashCode());
+		result = prime * result + ((lastUpdateTimestamp == null) ? 0 : lastUpdateTimestamp.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 
 	public List<Tag> getMyTags() {
@@ -165,5 +196,37 @@ public class Task {
 
 	public void setMyTags(List<Tag> myTags) {
 		this.myTags = myTags;
+	}
+
+
+
+	public List<User> getWorkers() {
+		return workers;
+	}
+
+
+
+	public void setWorkers(List<User> workers) {
+		this.workers = workers;
+	}
+	
+	public void addWorkers(User user) {
+		this.workers.add(user);
+	}
+
+
+
+	public List<String> getCommenti() {
+		return commenti;
+	}
+
+
+
+	public void setCommenti(List<String> commenti) {
+		this.commenti = commenti;
+	}
+	
+	public void addCommento(String commento) {
+		this.commenti.add(commento);
 	}
 }

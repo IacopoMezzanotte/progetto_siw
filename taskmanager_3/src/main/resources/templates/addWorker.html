@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>TaskManager</title>
+</head>
+
+<body>
+
+
+	<h1>Add a worker</h1>
+
+
+	<div th:if="${members.size()>0}"></div>
+
+	<h3>Assign to:</h3>
+	<ul>
+		<li th:each="member : ${members}">
+			<form method="POST"
+				th:action="@{'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addWorker/' + ${member.id}}">
+				<div th:text="${member.firstName} + ' ' + ${member.lastName}"></div>
+				<button type="submit" name="submit" value="value">Add</button>
+				
+			</form>
+		</li>
+	</ul>
+	<div>
+		<footer>
+			<a th:href="@{/home}">Home</a>
+		</footer>
+	</div>
+</body>
+</html>

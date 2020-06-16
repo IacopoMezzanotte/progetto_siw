@@ -5,7 +5,7 @@
 <title>TaskManager</title>
 </head>
 <body>
-	<h1>Register new Project</h1>
+	<h1>Update a Project</h1>
 	<form id="updateUserForm" th:action="@{'/projects/' +${projectForm.id}+ '/update'}"
 		th:object="${projectForm}" method="POST">
 		<table>

@@ -23,24 +23,31 @@
 	<a th:href="'/projects/' + ${project.id} + '/addTask'">add a Task</a>
 	<ul>
 		<li th:each="task : ${project.tasks}">
-			<div th:text="${task.name}"></div>
-			<div th:text="${task.description}" style="color: purple"></div>
-			<a th:href = "'/projects/' + ${project.id} + '/updateTask/' + ${task.id}">Update</a>
-			<a th:href = "'/projects/' + ${project.id} + '/deleteTask/' + ${task.id}">Delete</a>
-			
+			<div> <a th:href="'/projects/' + ${project.id} + '/task/' + ${task.id}" th:text="${task.name}"></a></div>
+			<div th:text="${task.description}" style="color: purple"></div> <a
+			th:href="'/projects/' + ${project.id} + '/updateTask/' + ${task.id}">Update</a>
+			<form method="POST"
+				th:action="@{'/projects/' + ${project.id} + '/deleteTask/' + ${task.id}}">
+				<button type="submit" name="submit" value="value">DELETE</button>
+			</form>
+
 		</li>
 	</ul>
-	
+
 	<h3>Tags</h3>
 	<a th:href="'/projects/' + ${project.id} + '/addTag'">add a Tag</a>
 	<ul>
 		<li th:each="tag : ${project.tags}">
-			<div th:text="${tag.name}"></div>
+			<div><a th:href= "'/projects/' + ${project.id} + '/tag/' + ${tag.id}" th:text="${tag.name}"></a></div>
 			<div th:text="${tag.color}" th:style="'color: ' + ${tag.color}"></div>
 			<div th:text="${tag.description}" th:style="'color: grey'"></div>
+			<form method="POST"
+				th:action="@{'/projects/' + ${project.id} + '/deleteTag/' + ${tag.id}}">
+				<button type="submit" name="submit" value="value">DELETE</button>
+			</form>
 		</li>
 	</ul>
-	
+
 	<a th:href="'/projects/' + ${project.id} + '/share'">Share With</a>
 </body>
 <div>

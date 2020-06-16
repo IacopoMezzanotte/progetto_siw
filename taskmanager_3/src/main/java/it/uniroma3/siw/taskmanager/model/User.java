@@ -47,6 +47,9 @@ public class User {
 	 */
 	@ManyToMany(mappedBy = "members")
 	private List<Project> visibleProjects;
+	
+	@ManyToMany(mappedBy = "workers")
+	private List<Task> myTasks;
 
 	/**
 	 * The date that this User was created/loaded into the DB
@@ -63,6 +66,7 @@ public class User {
 	public User() {
 		this.ownedProjects = new ArrayList<>();
 		this.visibleProjects = new ArrayList<>();
+		this.myTasks = new ArrayList<>();
 	}
 
 	public User(String firstName, String lastName) {
@@ -179,5 +183,17 @@ public class User {
 
 	public void addProject(Project projectShared) {
 		this.visibleProjects.add(projectShared);
+	}
+
+	public List<Task> getMyTasks() {
+		return myTasks;
+	}
+
+	public void setMyTasks(List<Task> myTasks) {
+		this.myTasks = myTasks;
+	}
+	
+	public void addMyTasks(Task task) {
+		this.myTasks.add(task);
 	}
 }

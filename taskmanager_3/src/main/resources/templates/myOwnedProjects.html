@@ -20,7 +20,10 @@
 					<td><a th:href="'/projects/' + ${project.id}"
 						th:text="${project.name}">...</a></td>
 					<td th:text="${project.description}">...</td>
-					<td><a th:href="'/projects/' + ${project.id} + '/elimina'">Elimina</a></td>
+					<td><form method="POST"
+							th:action="@{'/projects/' + ${project.id} + '/delete/'}">
+							<button type="submit" name="submit" value="value">DELETE</button>
+						</form></td>
 				</tr>
 			</tbody>
 		</table>

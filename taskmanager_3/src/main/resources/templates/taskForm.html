@@ -8,17 +8,21 @@
 <body>
 	<h1>Add a new Task</h1>
 	<form id="registerUserForm"
-		th:action="@{'/projects/' +${project.id}+ '/addTask'}" method="POST">
+		th:action="@{'/projects/' + ${project.id} + '/addTask'}" method="POST">
 		<table>
 			<tr>
 				<td><label for="taskNameInput">Name</label>
 				<td><input id=taskNameInput type="text" th:field="${task.name}"
 					placeholder="NAME" required /></td>
+				<td th:if="${#fields.hasErrors('task.name')}" th:errors="${task.name}"
+					th:style="'Color:red'"></td>
 			</tr>
 			<tr>
 				<td><label for="descriptionInput">Description</label></td>
 				<td><input id=descriptionInput type="text"
 					th:field="${task.description}" placeholder="DESCRIPTION" /></td>
+				<td th:if="${#fields.hasErrors('task.description')}" th:errors="${task.description}"
+					th:style="'Color:red'"></td>
 			</tr>
 
 			<tr>

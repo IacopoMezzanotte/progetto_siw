@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>TaskManager</title>
+</head>
+
+<body>
+	<h1>Member view</h1>
+	<table>
+
+		<tr>
+			<td>First Name</td>
+			<td th:text="${worker.firstName}">...</td>
+		</tr>
+		<tr>
+			<td>Last Name</td>
+			<td th:text="${worker.lastName}">...</td>
+		</tr>
+
+		<tr>
+			<td>Registered at:</td>
+			<td th:text="${worker.creationTimestamp}">...</td>
+		</tr>
+		<tr>
+			<td>Last Update at:</td>
+			<td th:text="${worker.lastUpdateTimestamp}">...</td>
+		</tr>
+	</table>
+	<div>
+		<footer>
+			<a th:href="@{/home}">Home</a>
+		</footer>
+	</div>
+</body>
+</html>

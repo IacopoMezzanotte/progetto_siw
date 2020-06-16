@@ -153,4 +153,12 @@ public class UserController {
 	        }
 	        return "userUpdate";
 	    }
+	
+	@RequestMapping(value = {"/users/{id}"}, method = RequestMethod.GET)
+	public String showWorker(Model model, @PathVariable("id") Long id) {
+		User worker = userService.getUser(id);
+		model.addAttribute("worker", worker);
+		return "worker" ;
+		
+	}
 }

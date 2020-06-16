@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TaskManager</title>
+</head>
+
+<body>
+	<h1 th:text="${task.name}"></h1>
+	<h4 th:text="${task.description}" style="color: green"></h4>
+	<a
+		th:href="'/projects/' + ${project.id} + '/task/' + ${task.id} +  '/addWorker'">Add
+		a Worker</a>
+
+	<div th:if="${task.workers.size()>0}">
+
+		<h3>Assigned to:</h3>
+		<ul>
+			<li th:each="workers : ${workers}">
+				<div>
+					<a th:href="'/users/' + ${workers.id}"
+						th:text="${workers.firstName} + ' ' + ${workers.lastName}"></a>
+				</div>
+			</li>
+		</ul>
+		</div>
+		<a th:href = "'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addTag/'">addTag</a>
+		
+		<div th:if="${task.myTags.size()>0}">
+		<h3>Tags:</h3>
+		<ul>
+			<li th:each="tag : ${task.myTags}">
+				<div>
+					<div th:text="${tag.name}"></div>
+					<div th:text="${tag.color}" th:style="'color: ' + ${tag.color}"></div>
+					<div th:text="${tag.description}" th:style="'color: grey'"></div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<a th:href = "'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addComment/'">addComment</a>
+</body>
+<div>
+	<footer>
+		<a th:href="@{/home}">Home</a>
+	</footer>
+</div>
+</html>
