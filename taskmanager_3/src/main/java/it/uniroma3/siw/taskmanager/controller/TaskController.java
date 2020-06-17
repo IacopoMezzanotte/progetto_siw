@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import it.uniroma3.siw.taskmanager.controller.session.SessionData;
 import it.uniroma3.siw.taskmanager.controller.validation.TaskValidator;
+import it.uniroma3.siw.taskmanager.model.Commento;
 import it.uniroma3.siw.taskmanager.model.Project;
 import it.uniroma3.siw.taskmanager.model.Task;
 import it.uniroma3.siw.taskmanager.model.User;
+import it.uniroma3.siw.taskmanager.service.CommentoService;
 import it.uniroma3.siw.taskmanager.service.ProjectService;
 import it.uniroma3.siw.taskmanager.service.TaskService;
 import it.uniroma3.siw.taskmanager.service.UserService;
@@ -44,6 +46,9 @@ public class TaskController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CommentoService commentoService;
 
 
 	@RequestMapping (value = {"/projects/{id}/addTask"} , method = RequestMethod.GET)
@@ -80,7 +85,7 @@ public class TaskController {
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		User owner = project.getOwner();
-		
+
 		if(loggedUser.equals(owner)){
 
 			Task task = taskService.getTask(taskId);
@@ -111,14 +116,14 @@ public class TaskController {
 			BindingResult taskBindingResult, Model model,  
 			@PathVariable("projectId") Long projectId, 
 			@PathVariable("taskId") Long taskId) {
-
+	
 		User loggedUser = sessionData.getLoggedUser();	
 		Project project = projectService.getProject(projectId);
 		User owner = project.getOwner();
+		Task task = taskService.getTask(taskId);
 		if(loggedUser.equals(owner)){
 			logger.info(owner.toString());
-			Task task = taskService.getTask(taskId);
-			taskValidator.validate(task, taskBindingResult);
+			taskValidator.validate(newTask, taskBindingResult);
 			if(!taskBindingResult.hasErrors()) {
 				task.setName(newTask.getName());
 				task.setDescription(newTask.getDescription());
@@ -127,7 +132,11 @@ public class TaskController {
 				return "redirect:/projects/{projectId}" ;
 			}
 		}
-		return "redirect:/projects/{projectId}";
+		
+		model.addAttribute("project", project);
+		newTask.setId(task.getId());
+		model.addAttribute("task", newTask);
+		return "updateTask";
 	}
 
 	@RequestMapping(value ="/projects/{projectId}/task/{taskId}", method = RequestMethod.GET)
@@ -176,33 +185,37 @@ public class TaskController {
 		return "redirect:/projects/{projectId}/task/{taskId}";
 
 	}
-	
+
 	@RequestMapping( value = {"/projects/{projectId}/task/{taskId}/addComment"}, method = RequestMethod.GET)
 	public String addComment(Model model, @PathVariable("projectId") Long projectId,
 			@PathVariable("taskId") Long taskId) {
 		Project project = projectService.getProject(projectId);
 		User loggedUser = sessionData.getLoggedUser();
-		
-		if(project.getMembers().contains(loggedUser)) {
-		Task task = taskService.getTask(taskId);
-		String commento = new String();
-		model.addAttribute("project", project);
-		model.addAttribute("task", task);
-		model.addAttribute("commento", commento);
-		return "addComment";
+
+		if((project.getMembers().contains(loggedUser))||(project.getOwner().equals(loggedUser))) {
+			Task task = taskService.getTask(taskId);
+			String commento = new String();
+			model.addAttribute("project", project);
+			model.addAttribute("task", task);
+			model.addAttribute("commento", commento);
+			return "addComment";
 		}
 		return "redirect:/projects/{projectId}/task/{taskId}";
-}
+	}
 	@RequestMapping( value = {"/projects/{projectId}/task/{taskId}/addComment"}, method = RequestMethod.POST)
 	public String addComment(@ModelAttribute("commento") String commento, Model model, @PathVariable("projectId") Long projectId,
 			@PathVariable("taskId") Long taskId) {
 		Task task = taskService.getTask(taskId);
-		task.setCommento(commento);
+		Commento comment = new Commento();
+		comment.setCommento(commento);
+		comment.setUser(sessionData.getLoggedUser());
+		task.addCommento(comment);
+		commentoService.saveCommento(comment);
 		taskService.saveTask(task);
 		return "redirect:/projects/{projectId}/task/{taskId}" ;
-		
+
 	}
-	
+
 
 }
 

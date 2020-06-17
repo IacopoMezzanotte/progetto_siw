@@ -34,8 +34,8 @@ public class Task {
 	@Column(length = 1000)
 	private String description;
 	
-	@Column(length = 500)
-	private String commento;
+	@OneToMany
+	private List<Commento> commenti;
 
 	/**
 	 * Boolean flag specifying whether this Task is completed or not
@@ -64,20 +64,18 @@ public class Task {
 	public Task() {
 		this.myTags = new ArrayList<>();
 		this.workers = new ArrayList<>();
-		
+		this.commenti = new ArrayList<>();
 	}
 	
 	
 
 	public Task(String name,
 			String description,
-			String commento,
 			boolean completed) {
 		this();
 		this.name = name;
 		this.description = description;
 		this.completed = completed;
-		this.commento = commento;
 	}
 
 	/**
@@ -218,15 +216,18 @@ public class Task {
 
 
 
-	public String getCommento() {
-		return commento;
+	public List<Commento> getCommenti() {
+		return commenti;
 	}
 
 
 
-	public void setCommento(String commento) {
-		this.commento = commento;
+	public void setCommento(List<Commento> commenti) {
+		this.commenti = commenti;
 	}
 	
+	public void addCommento(Commento commento) {
+		this.commenti.add(commento);
+	}
 	
 }

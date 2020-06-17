@@ -8,7 +8,7 @@
 <body>
 	<h1>Update a Tag</h1>
 	<form id="registerTagForm"
-		th:action="@{'/projects/' + ${projectId} + '/updateTag/' + ${tagId}}" method="POST">
+		th:action="@{'/projects/' + ${project.id} + '/updateTag/' + ${tag.id}}" method="POST">
 		<table>
 			<tr>
 				<td><label for="tagNameInput">Name</label>

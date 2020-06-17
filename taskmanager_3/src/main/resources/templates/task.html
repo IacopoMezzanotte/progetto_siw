@@ -40,10 +40,21 @@
 			</li>
 		</ul>
 	</div>
-	<h3>Commento:</h3>
-	<div th:text="${task.commento}"></div>
+
 	<a
 		th:href="'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addComment/'">addComment</a>
+
+	<div th:if="${task.commenti.size()>0}">
+		<h3>Commenti:</h3>
+		<ul>
+			<li th:each="commento : ${task.commenti}">
+				<div>
+					<div th:text=" ${commento.commento} "></div>
+					<div th:text="${commento.user.firstName} + ' ' + ${commento.user.lastName}"></div>
+				</div>
+			</li>
+		</ul>
+	</div>
 </body>
 <div>
 	<footer>
