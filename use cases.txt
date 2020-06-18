@@ -66,10 +66,19 @@ UN UTENTE UTILIZZA IL SISTEMA PER CREARE E ASSEGNARE UNA TAG A UN PROGETTO
 UN UTENTE UTILIZZA IL SISTEMA PER ASSEGNARE UN TAG A UN TASK 
   un utente proprietario del sistema puo aggiungere una tag a un task solo se è proprietario del progetto cliccando l'apposito link 
   nella vista del tag e selzionando dall' elelnco il tag deisderato. il tag deve essere creato precedentemente.
-
- 
   
-
+===================================================================================================================================
+UN UTENTE UTENTE UTILIZZA IL SISTEMA PER CANCELLARE UNA TAG
+  un utente può eliminare una task da un progetto tramite l'apposito pulsante nella vista del progetto
+  
+===================================================================================================================================
+ UN UTENTE REGISTRATO COME ADMIN UTILIZZA IL SISTEMA PER CANCELLARE UN UTENTE
+   un utente loggato come admin può utilizzare il sistema per eliminare uno user tramite l'apposito elenco
+   
+ 
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER FARE LOGOUT
+    un utente che utilizza il sistema può fare logout cliccando sull'apposito link 
   
 
   
