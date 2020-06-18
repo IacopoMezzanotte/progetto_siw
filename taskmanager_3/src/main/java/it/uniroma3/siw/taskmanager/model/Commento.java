@@ -68,6 +68,15 @@ public class Commento {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public LocalDateTime getLastUpdateTimestamp() {
+		return lastUpdateTimestamp;
+	}
+
+	public void setLastUpdateTimestamp(LocalDateTime lastUpdateTimestamp) {
+		this.lastUpdateTimestamp = lastUpdateTimestamp;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -99,16 +108,5 @@ public class Commento {
 			return false;
 		return true;
 	}
-
-	public LocalDateTime getLastUpdateTimestamp() {
-		return lastUpdateTimestamp;
-	}
-
-	public void setLastUpdateTimestamp(LocalDateTime lastUpdateTimestamp) {
-		this.lastUpdateTimestamp = lastUpdateTimestamp;
-	}
-
-
-
 
 }

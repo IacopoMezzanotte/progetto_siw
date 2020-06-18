@@ -3,10 +3,10 @@ package it.uniroma3.siw.taskmanager.model;
 import javax.persistence.*;
 
 
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -51,12 +51,12 @@ public class Project {
 	/**
 	 * Tasks that this project contains
 	 */
-	
+
 	@OneToMany(fetch = FetchType.EAGER,        // whenever a Project is retrieved, always retrieve its tasks too
 			cascade = CascadeType.ALL)   // tutte le operazioni Crud di project verranno applicate anche a task
 	@JoinColumn(name="project_id")
 	private Set<Task> tasks;
-	
+
 
 	@OneToMany(fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL)       // whenever a Project is retrieved, always retrieve its tasks too)   // tutte le operazioni Crud di project verranno applicate anche a task
@@ -127,9 +127,21 @@ public class Project {
 	public void setTasks(Set<Task> tasks) {
 		this.tasks = tasks;
 	}
-	
+
 	public void addTask(Task task) {
 		this.tasks.add(task);
+	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public void addTag(Tag tag) {
+		this.tags.add(tag);
 	}
 
 	@Override
@@ -143,30 +155,35 @@ public class Project {
 				'}';
 	}
 
-	// this is a semplification
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Project project = (Project) o;
-		return Objects.equals(name, project.name);
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Project other = (Project) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 
-	public Set<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(Set<Tag> tags) {
-		this.tags = tags;
-	}
-	
-	public void addTag(Tag tag) {
-		this.tags.add(tag);
-	}
-	
 }

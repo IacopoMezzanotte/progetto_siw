@@ -2,11 +2,11 @@ package it.uniroma3.siw.taskmanager.controller;
 
 import java.util.List;
 
+
 import java.util.Set;
 
 import javax.validation.Valid;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +28,6 @@ import it.uniroma3.siw.taskmanager.service.TaskService;
 
 @Controller
 public class TagController {
-	
-	private static final org.slf4j.Logger logger =  LoggerFactory.getLogger(ProjectController.class);
 
 	@Autowired
 	private ProjectService projectService;
@@ -48,6 +46,7 @@ public class TagController {
 
 	@RequestMapping(value = {"/projects/{id}/addTag"}, method = RequestMethod.GET)
 	public String addTag(Model model, @PathVariable("id") Long id) {
+
 		Project project = projectService.getProject(id);
 		Tag tag = new Tag();
 		model.addAttribute("project", project);
@@ -61,8 +60,8 @@ public class TagController {
 
 		Project project = projectService.getProject(id);
 		tagValidator.validate(newTag, tagBindingResult);
+		
 		if(!tagBindingResult.hasErrors()) {
-
 			project.addTag(newTag);
 			projectService.saveProject(project);
 			return "redirect:/projects/{id}";
@@ -74,26 +73,26 @@ public class TagController {
 
 	@RequestMapping(value = {"/projects/{projectId}/deleteTag/{tagId}"}, method = RequestMethod.POST)
 	public String deleteTag(Model model, @PathVariable("projectId") Long projectId, @PathVariable("tagId") Long tagId) {
+
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		User owner = project.getOwner();
 
 		if(loggedUser.equals(owner)){
-
-			project.getTags().remove(tagService.getTag(tagId));
+			Tag tag = tagService.getTag(tagId);
+			project.getTags().remove(tag);
 			Set<Task> tasks = project.getTasks();
-			for(Task t : tasks) 
-				t.getMyTags().remove(tagService.getTag(tagId));
+			taskService.removeTags(tasks, tag);
 			tagService.deleteTagById(tagId);
 			return "redirect:/projects/{projectId}";	
 		}
-		else
-			return "redirect:/projects/{projectId}";
+		return "redirect:/projects/{projectId}";
 	}
 
 	@RequestMapping(value= {"/projects/{projectId}/tag/{tagId}"}, method = RequestMethod.GET)
 	public String showTag(Model model, @PathVariable("projectId") Long projectId,
 			@PathVariable("tagId") Long tagId) {
+		
 		Tag tag = tagService.getTag(tagId);
 		model.addAttribute("tag", tag);
 		return "tag";
@@ -102,6 +101,7 @@ public class TagController {
 
 	@RequestMapping(value = {"/projects/{projectId}/updateTag/{tagId}"}, method = RequestMethod.GET )
 	public String updateTask(Model model,  @PathVariable("projectId") Long projectId, @PathVariable("tagId") Long tagId) {
+		
 		Project project = projectService.getProject(projectId);
 		Tag tag = tagService.getTag(tagId);
 		model.addAttribute("project", project);
@@ -111,8 +111,7 @@ public class TagController {
 	}
 
 	@RequestMapping(value = {"/projects/{projectId}/updateTag/{tagId}"}, method = RequestMethod.POST )
-	public String updateTask(@Valid@ModelAttribute("tag") Tag newTag, 
-			BindingResult tagBindingResult, Model model,  
+	public String updateTask(@Valid@ModelAttribute("tag") Tag newTag, BindingResult tagBindingResult, Model model,  
 			@PathVariable("projectId") Long projectId, 
 			@PathVariable("tagId") Long tagId) {
 
@@ -120,7 +119,7 @@ public class TagController {
 		Project project = projectService.getProject(projectId);
 		User owner = project.getOwner();
 		Tag tag = tagService.getTag(tagId);
-		logger.info("ID TAG" + tag.getId());
+
 		if(loggedUser.equals(owner)){
 			tagValidator.validate(newTag, tagBindingResult);
 			if(!tagBindingResult.hasErrors()) {
@@ -128,15 +127,14 @@ public class TagController {
 				tag.setDescription(newTag.getDescription());
 				tag.setColor(newTag.getColor());
 				tagService.saveTag(tag);
-
 				return "redirect:/projects/{projectId}" ;
 			}
 		}
-
 		model.addAttribute("project", project);
 		newTag.setId(tag.getId());
 		model.addAttribute("tag",newTag);
 		return "updateTag";
+	
 	}
 
 	@RequestMapping(value = {"/projects/{projectId}/task/{taskId}/addTag"}, method = RequestMethod.GET)
@@ -154,7 +152,7 @@ public class TagController {
 			return "addTag";
 		}
 		return "redirect:/projects/{ptojectId}";
-
+	
 	}
 
 	@RequestMapping(value = {"/projects/{projectId}/task/{taskId}/addTag/{tagId}"}, method = RequestMethod.POST)
@@ -165,6 +163,7 @@ public class TagController {
 		Tag tag = tagService.getTag(tagId);
 		task.addTag(tag);
 		taskService.saveTask(task);
+		tagService.saveTag(tag);
 		return "redirect:/projects/{projectId}/task/{taskId}";
 
 	}

@@ -45,7 +45,7 @@ public class ProjectController {
 
 	@RequestMapping(value = {"/projects"}, method = RequestMethod.GET)
 	public String myOwnedProject(Model model) {
-		
+
 		User loggedUser = sessionData.getLoggedUser();
 		List<Project> projectList = projectService.retrieveProjectOwnedBy(loggedUser);
 		model.addAttribute("loggedUser", loggedUser);
@@ -59,12 +59,9 @@ public class ProjectController {
 
 		Project project = projectService.getProject(projectId);
 		User loggedUser = sessionData.getLoggedUser();
-
-		if(project==null)
-			return "redirect:/projects";
-
 		List<User> members = userService.getMemebers(project);
-		if(!project.getOwner().equals(loggedUser) && !members.contains(loggedUser))
+
+		if((project==null)||(!project.getOwner().equals(loggedUser) && !members.contains(loggedUser)))
 			return "redirect:/projects";
 
 		model.addAttribute("loggedUser", loggedUser);
@@ -76,7 +73,7 @@ public class ProjectController {
 
 	@RequestMapping(value = {"/projects/add"}, method = RequestMethod.GET)
 	public String createProjectForm(Model model) {
-		
+
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = new Project();
 		model.addAttribute("loggedUser", loggedUser);
@@ -86,10 +83,11 @@ public class ProjectController {
 
 	@RequestMapping(value = {"/projects/add"}, method = RequestMethod.POST)
 	public String CreateProject(@Valid @ModelAttribute("projectForm")Project project,
-			
 			BindingResult projectBindingResult,Model model) {
+
 		User loggedUser = sessionData.getLoggedUser();
 		projectValidator.validate(project, projectBindingResult);
+
 		if(!projectBindingResult.hasErrors()) {
 			project.setOwner(loggedUser);
 			this.projectService.saveProject(project);
@@ -100,9 +98,10 @@ public class ProjectController {
 
 	@RequestMapping(value = {"/projects/{id}/share"} , method = RequestMethod.GET)
 	public String shareWith(Model model, @PathVariable("id") Long id) {
-		
+
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(id);
+
 		if(loggedUser.equals(project.getOwner())) {
 			String userName = new String();
 			model.addAttribute("project", project);
@@ -110,8 +109,8 @@ public class ProjectController {
 
 			return "shareWith" ;
 		}
-		else
-			return "redirect:/home";
+
+		return "redirect:/home";
 	}
 
 	@RequestMapping(value = {"/projects/{id}/share"}, method = RequestMethod.POST)
@@ -134,7 +133,7 @@ public class ProjectController {
 
 	@RequestMapping(value = {"/projects/{id}/delete"} , method = RequestMethod.POST)
 	public String elimina(Model model ,  @PathVariable("id") Long id ) {
-		
+
 		this.projectService.deleteById(id);
 		return "redirect:/projects/";
 
@@ -142,10 +141,9 @@ public class ProjectController {
 
 	@RequestMapping (value = {"/sharedProjects"} , method = RequestMethod.GET)
 	public String sharedProjects(Model model) {
-		
+
 		User loggedUser = sessionData.getLoggedUser();
 		List<Project> visibleProjects = userService.getVisibleProjects(loggedUser);
-		System.out.println(visibleProjects.toString());
 		model.addAttribute("visibleProjects" , visibleProjects);
 		return "sharedProjects";
 
@@ -153,7 +151,7 @@ public class ProjectController {
 
 	@RequestMapping(value = {"/projects/{id}/update"}, method = RequestMethod.GET)
 	public String updateProject(Model model, @PathVariable("id") Long id) {
-		
+
 		Project project = projectService.getProject(id);
 		model.addAttribute("projectForm", project);
 		return "updateProject";
@@ -163,8 +161,9 @@ public class ProjectController {
 	@RequestMapping(value = {"/projects/{id}/update"}, method = RequestMethod.POST )
 	public String updateProject(@Valid @ModelAttribute("projectForm")Project newProject,
 			BindingResult projectBindingResult,Model model, @PathVariable("id") Long id) {
-		
+
 		projectValidator.validate(newProject, projectBindingResult);
+
 		if(!projectBindingResult.hasErrors()) {
 			Project project = projectService.getProject(id);
 			project.setName(newProject.getName());

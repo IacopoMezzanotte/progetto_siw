@@ -2,10 +2,10 @@ package it.uniroma3.siw.taskmanager.controller;
 
 import java.util.List;
 
+
 import javax.validation.Valid;
 
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +30,6 @@ import it.uniroma3.siw.taskmanager.service.UserService;
 @Controller
 public class TaskController {
 
-	private static final org.slf4j.Logger logger =  LoggerFactory.getLogger(ProjectController.class);
 
 	@Autowired
 	private SessionData sessionData;
@@ -46,19 +45,24 @@ public class TaskController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CommentoService commentoService;
 
 
 	@RequestMapping (value = {"/projects/{id}/addTask"} , method = RequestMethod.GET)
 	public String addTask(Model model, @PathVariable("id") Long id) {
-		Task task = new Task();
+
+		
 		Project project = projectService.getProject(id);
+		if(project.getOwner().equals(sessionData.getLoggedUser())) {
+		Task task = new Task();
 		model.addAttribute("task", task);
 		model.addAttribute("project", project);
 		return "taskForm";
-
+		}
+		return "redirect:/projects/{id}";
+		
 	}
 
 	@RequestMapping(value = {"/projects/{id}/addTask"}, method = RequestMethod.POST)
@@ -67,42 +71,39 @@ public class TaskController {
 			@PathVariable("id") Long id) {
 
 		taskValidator.validate(task, taskBindingResult);
+
 		if(!taskBindingResult.hasErrors()) {
 			Project project = projectService.getProject(id);
 			project.addTask(task);
 			projectService.saveProject(project);
 			return "redirect:/projects/{id}";
 		}
-		else {
-			Project project = projectService.getProject(id);
-			model.addAttribute("project", project);
-		}
+		Project project = projectService.getProject(id);
+		model.addAttribute("project", project);
 		return "taskForm";
 	}
 
 	@RequestMapping(value = {"/projects/{projectId}/deleteTask/{taskId}"}, method = RequestMethod.POST)
 	public String deleteTask(Model model, @PathVariable("projectId") Long projectId, @PathVariable("taskId") Long taskId) {
+
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		User owner = project.getOwner();
 
 		if(loggedUser.equals(owner)){
-
 			Task task = taskService.getTask(taskId);
-			owner.getMyTasks().remove(task);
 			List<User> members = project.getMembers();
-			for(User u : members)
-				u.getMyTasks().remove(task);
+			userService.removeTask(owner, members, task);
 			project.getTasks().remove(task);
 			taskService.deleteTaskById(taskId);
 			return "redirect:/projects/{projectId}";	
 		}
-		else
-			return "redirect:/projects/{projectId}";
+		return "redirect:/projects/{projectId}";
 	}
 
 	@RequestMapping(value = {"/projects/{projectId}/updateTask/{taskId}"}, method = RequestMethod.GET )
 	public String updateTask(Model model,  @PathVariable("projectId") Long projectId, @PathVariable("taskId") Long taskId) {
+
 		Project project = projectService.getProject(projectId);
 		Task task = taskService.getTask(taskId);
 		model.addAttribute("project", project);
@@ -116,35 +117,34 @@ public class TaskController {
 			BindingResult taskBindingResult, Model model,  
 			@PathVariable("projectId") Long projectId, 
 			@PathVariable("taskId") Long taskId) {
-	
+
 		User loggedUser = sessionData.getLoggedUser();	
 		Project project = projectService.getProject(projectId);
 		User owner = project.getOwner();
 		Task task = taskService.getTask(taskId);
+
 		if(loggedUser.equals(owner)){
-			logger.info(owner.toString());
 			taskValidator.validate(newTask, taskBindingResult);
 			if(!taskBindingResult.hasErrors()) {
 				task.setName(newTask.getName());
 				task.setDescription(newTask.getDescription());
 				taskService.saveTask(task);
-				logger.info(project.getTasks().toString().toUpperCase());
 				return "redirect:/projects/{projectId}" ;
 			}
 		}
-		
 		model.addAttribute("project", project);
 		newTask.setId(task.getId());
 		model.addAttribute("task", newTask);
 		return "updateTask";
+	
 	}
 
 	@RequestMapping(value ="/projects/{projectId}/task/{taskId}", method = RequestMethod.GET)
 	public String showTask(Model model, @PathVariable("projectId") Long projectId,
 			@PathVariable("taskId") Long taskId) {
+
 		Project project = projectService.getProject(projectId);
 		Task task = taskService.getTask(taskId);
-		logger.info(task.toString());
 		List<User> workers = task.getWorkers();
 		model.addAttribute("project", project);
 		model.addAttribute("task", task);
@@ -155,8 +155,10 @@ public class TaskController {
 	@RequestMapping(value = {"/projects/{projectId}/task/{taskId}/addWorker"}, method = RequestMethod.GET)
 	public String addWorker(Model model, @PathVariable("projectId") Long projectId, 
 			@PathVariable("taskId") Long taskId ) {
+
 		User loggedUser =  sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
+
 		if(loggedUser.equals(project.getOwner())) {
 			Task task = taskService.getTask(taskId);
 			List<User> members = project.getMembers();
@@ -175,11 +177,11 @@ public class TaskController {
 
 		Task task = taskService.getTask(taskId);
 		User worker = userService.getUser(workerId);
+
 		if(!task.getWorkers().contains(worker)) {
 			task.addWorkers(worker);
 			worker.addMyTasks(task);
 			taskService.saveTask(task);
-
 			return "redirect:/projects/{projectId}/task/{taskId}";
 		}
 		return "redirect:/projects/{projectId}/task/{taskId}";
@@ -189,6 +191,7 @@ public class TaskController {
 	@RequestMapping( value = {"/projects/{projectId}/task/{taskId}/addComment"}, method = RequestMethod.GET)
 	public String addComment(Model model, @PathVariable("projectId") Long projectId,
 			@PathVariable("taskId") Long taskId) {
+
 		Project project = projectService.getProject(projectId);
 		User loggedUser = sessionData.getLoggedUser();
 
@@ -202,9 +205,11 @@ public class TaskController {
 		}
 		return "redirect:/projects/{projectId}/task/{taskId}";
 	}
+
 	@RequestMapping( value = {"/projects/{projectId}/task/{taskId}/addComment"}, method = RequestMethod.POST)
 	public String addComment(@ModelAttribute("commento") String commento, Model model, @PathVariable("projectId") Long projectId,
 			@PathVariable("taskId") Long taskId) {
+
 		Task task = taskService.getTask(taskId);
 		Commento comment = new Commento();
 		comment.setCommento(commento);
@@ -215,7 +220,6 @@ public class TaskController {
 		return "redirect:/projects/{projectId}/task/{taskId}" ;
 
 	}
-
 
 }
 

@@ -1,8 +1,8 @@
 package it.uniroma3.siw.taskmanager.model;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * Credentials model the account credentials for a user of the application.
@@ -147,20 +147,53 @@ public class Credentials {
     // EQUALS AND HASHCODE
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Credentials)) return false;
-        Credentials user = (Credentials) o;
-        return Objects.equals(userName, user.userName) &&
-                Objects.equals(role, user.role) &&
-                Objects.equals(creationTimestamp, user.creationTimestamp) &&
-                Objects.equals(lastUpdateTimestamp, user.lastUpdateTimestamp);
-    }
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Credentials other = (Credentials) obj;
+		if (creationTimestamp == null) {
+			if (other.creationTimestamp != null)
+				return false;
+		} else if (!creationTimestamp.equals(other.creationTimestamp))
+			return false;
+		if (lastUpdateTimestamp == null) {
+			if (other.lastUpdateTimestamp != null)
+				return false;
+		} else if (!lastUpdateTimestamp.equals(other.lastUpdateTimestamp))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (role == null) {
+			if (other.role != null)
+				return false;
+		} else if (!role.equals(other.role))
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
+		return true;
+	}
 
     @Override
-    public int hashCode() {
-        return Objects.hash(userName, role);
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((creationTimestamp == null) ? 0 : creationTimestamp.hashCode());
+		result = prime * result + ((lastUpdateTimestamp == null) ? 0 : lastUpdateTimestamp.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		return result;
+	}
 
     @Override
     public String toString() {

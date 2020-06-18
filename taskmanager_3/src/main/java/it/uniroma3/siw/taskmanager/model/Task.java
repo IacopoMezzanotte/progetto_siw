@@ -33,7 +33,7 @@ public class Task {
 	 */
 	@Column(length = 1000)
 	private String description;
-	
+
 	@OneToMany
 	private List<Commento> commenti;
 
@@ -57,7 +57,7 @@ public class Task {
 
 	@ManyToMany
 	private List<Tag> myTags;
-	
+
 	@ManyToMany
 	private List<User> workers;
 
@@ -66,8 +66,6 @@ public class Task {
 		this.workers = new ArrayList<>();
 		this.commenti = new ArrayList<>();
 	}
-	
-	
 
 	public Task(String name,
 			String description,
@@ -153,6 +151,53 @@ public class Task {
 			this.myTags.add(tag);
 	}
 
+	public List<Tag> getMyTags() {
+		return myTags;
+	}
+
+	public void setMyTags(List<Tag> myTags) {
+		this.myTags = myTags;
+	}
+
+
+
+	public List<User> getWorkers() {
+		return workers;
+	}
+
+
+
+	public void setWorkers(List<User> workers) {
+		this.workers = workers;
+	}
+
+	public void addWorkers(User user) {
+		this.workers.add(user);
+	}
+
+
+
+	public List<Commento> getCommenti() {
+		return commenti;
+	}
+
+
+
+	public void setCommento(List<Commento> commenti) {
+		this.commenti = commenti;
+	}
+
+	public void addCommento(Commento commento) {
+		this.commenti.add(commento);
+	}
+
+
+
+	public void removeTags(Tag tag) {
+		this.getMyTags().remove(tag);
+	}
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -190,44 +235,5 @@ public class Task {
 		return result;
 	}
 
-	public List<Tag> getMyTags() {
-		return myTags;
-	}
 
-	public void setMyTags(List<Tag> myTags) {
-		this.myTags = myTags;
-	}
-
-
-
-	public List<User> getWorkers() {
-		return workers;
-	}
-
-
-
-	public void setWorkers(List<User> workers) {
-		this.workers = workers;
-	}
-	
-	public void addWorkers(User user) {
-		this.workers.add(user);
-	}
-
-
-
-	public List<Commento> getCommenti() {
-		return commenti;
-	}
-
-
-
-	public void setCommento(List<Commento> commenti) {
-		this.commenti = commenti;
-	}
-	
-	public void addCommento(Commento commento) {
-		this.commenti.add(commento);
-	}
-	
 }

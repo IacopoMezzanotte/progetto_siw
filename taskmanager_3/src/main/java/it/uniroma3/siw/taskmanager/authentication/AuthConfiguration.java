@@ -1,5 +1,6 @@
 package it.uniroma3.siw.taskmanager.authentication;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,7 +14,6 @@ import javax.sql.DataSource;
 
 import static it.uniroma3.siw.taskmanager.model.Credentials.ADMIN_ROLE;
 
-import java.security.InvalidAlgorithmParameterException;
 
 /**
  * The AuthConfiguration is a Spring Security Configuration.

@@ -18,7 +18,9 @@ public class Tag {
 	private Long id;
 
 	@Column(nullable=false) private String name;
+	
 	@Column(nullable=false) private String color;
+	
 	@Column(length=200) private String description;
 
 	@ManyToMany(mappedBy="myTags") private List<Task> myTasks;
@@ -87,7 +89,7 @@ public class Tag {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -106,7 +108,10 @@ public class Tag {
 				return false;
 		} else if (!color.equals(other.color))
 			return false;
-		if (id != other.id)
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
 			return false;
 		if (name == null) {
 			if (other.name != null)

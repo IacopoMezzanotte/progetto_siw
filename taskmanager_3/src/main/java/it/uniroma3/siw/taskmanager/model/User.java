@@ -196,4 +196,8 @@ public class User {
 	public void addMyTasks(Task task) {
 		this.myTasks.add(task);
 	}
+
+	public void removeTask(Task task) {
+		this.getMyTasks().remove(task);
+	}
 }

@@ -1,0 +1,46 @@
+body {
+	font:  90% Arial;
+	text-align: center;
+	color: #191970;
+	background-color:#DCDCDC;
+}
+
+h3 {
+	text-decoration:  overline;
+	color: #008080;
+}
+
+h4{
+	font-size:large;
+	text-decoration: none;
+	font:  90% calibri;
+	
+}
+
+div#container {
+	width: 760px;
+}
+
+
+a { 
+	font-size:large;
+	text-decoration: none;
+	color: #1E90FF;
+	padding-bottom: 1px;
+	border-bottom: 1px solid #333
+}
+
+a:hover {
+	border-bottom: 1px dotted #000
+}
+
+footer{
+	 position:absolute;
+	 top:20%; 
+	 left: 90%;
+}
+
+
+
+
+

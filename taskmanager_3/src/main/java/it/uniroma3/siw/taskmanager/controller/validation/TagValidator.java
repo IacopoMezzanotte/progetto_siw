@@ -26,7 +26,7 @@ public class TagValidator implements Validator {
 		String description = tag.getDescription().trim();
 		String color = tag.getColor().trim();
 
-		if (name.isBlank())
+		if (name.isEmpty())
 			errors.rejectValue("name", "required");
 		else if (name.length() < MIN_TAGNAME_LENGTH || name.length() > MAX_TAGNAME_LENGTH)
 			errors.rejectValue("name", "size");

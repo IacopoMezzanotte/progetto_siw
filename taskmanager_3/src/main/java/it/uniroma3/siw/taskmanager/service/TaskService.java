@@ -1,5 +1,6 @@
 package it.uniroma3.siw.taskmanager.service;
 
+import it.uniroma3.siw.taskmanager.model.Tag;
 import it.uniroma3.siw.taskmanager.model.Task;
 import it.uniroma3.siw.taskmanager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * The TaskRepository handles logic for Tasks.
@@ -62,6 +64,13 @@ public class TaskService {
     @Transactional
 	public void deleteTaskById(Long id) {
 		this.taskRepository.deleteById(id);
+		
+	}
+
+	public void removeTags(Set<Task> tasks, Tag tag) {
+		for(Task t : tasks) {
+			t.removeTags(tag);
+		}
 		
 	}
 }

@@ -20,7 +20,7 @@ public class TaskValidator implements Validator{
 		String name = task.getName().trim();
 		String description = task.getDescription().trim();
 
-		if (name.isBlank())
+		if (name.isEmpty())
 			errors.rejectValue("name", "required");
 		else if (name.length() < MIN_TASKNAME_LENGTH || name.length() > MAX_TASKNAME_LENGTH)
 			errors.rejectValue("name", "size");
