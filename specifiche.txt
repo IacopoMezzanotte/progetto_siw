@@ -10,7 +10,8 @@ UN UTENTE UTILIZZA IL SISTEMA PER FARE IL LOGIN
  
 ===================================================================================================================================
 UN UTENTE UTILIZZA IL SISTEMA PER AGGIORNARE IL SUO PROFILO
- un utente dopo essersi loggato, può scegliere di aggiornare il suo profilo reimpostando username password nome e cognome
+ un utente dopo essersi loggato, può scegliere di aggiornare il suo profilo reimpostando username password nome e cognome (DA MIGLIORARE) un utente dovrà per forza effetturare il logout per coninuare a usufruire correttamente del sistema.
+
  
 ===================================================================================================================================
 UN UTENTE UTILIZZA IL SISTEMA PER CREARE UN NUOVO PROGETTO
