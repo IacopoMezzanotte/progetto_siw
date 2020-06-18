@@ -73,4 +73,10 @@ public class ProjectService {
 	public void deleteById(Long id) {
 		this.projectRepository.deleteById(id);
 	}
+
+	@Transactional
+	public Project getProjectByName(String name) {
+		Optional<Project> result = this.projectRepository.findByName(name);
+		return result.orElse(null);
+	}
 }

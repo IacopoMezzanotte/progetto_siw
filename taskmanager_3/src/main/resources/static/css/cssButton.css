@@ -1,0 +1,14 @@
+button {
+
+color: #000080; /* colore del testo */
+
+text-decoration: none; /* eliminare la sottolineatura del testo */
+
+background: #87CEFA; /* sfondo del bottone */
+
+}
+
+
+button:hover { background: #ADD8E6; cursor:pointer; } /* cambio dello sfondo al passagio del mouse */
+
+button:active { background: #7FFFD4; } /* cambiare lo sfondo al premere bottone   */

@@ -110,7 +110,7 @@ public class ProjectController {
 			return "shareWith" ;
 		}
 
-		return "redirect:/home";
+		return "redirect:/projects/{id}";
 	}
 
 	@RequestMapping(value = {"/projects/{id}/share"}, method = RequestMethod.POST)

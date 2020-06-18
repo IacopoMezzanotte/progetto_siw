@@ -8,7 +8,7 @@
 
 <body>
 	<h1 th:text="${task.name}"></h1>
-	<h4 th:text="${task.description}" style="color: green"></h4>
+	<h3 th:text="${task.description}" style="color: green"></h3>
 	<a
 		th:href="'/projects/' + ${project.id} + '/task/' + ${task.id} +  '/addWorker'">Add
 		a Worker</a>

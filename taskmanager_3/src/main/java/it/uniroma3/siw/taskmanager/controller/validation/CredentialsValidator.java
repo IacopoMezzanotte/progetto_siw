@@ -1,5 +1,6 @@
 package it.uniroma3.siw.taskmanager.controller.validation;
 
+import it.uniroma3.siw.taskmanager.controller.session.SessionData;
 import it.uniroma3.siw.taskmanager.model.Credentials;
 
 import it.uniroma3.siw.taskmanager.model.User;
@@ -22,6 +23,9 @@ public class CredentialsValidator implements Validator {
 
     @Autowired
     CredentialsService credentialsService;
+	
+    @Autowired
+    SessionData sessionData;
 
     @Override
     public void validate(Object o, Errors errors) {
@@ -33,8 +37,11 @@ public class CredentialsValidator implements Validator {
             errors.rejectValue("userName", "required");
         else if (userName.length() < MIN_USERNAME_LENGTH || userName.length() > MAX_USERNAME_LENGTH)
             errors.rejectValue("userName", "size");
-        else if (this.credentialsService.getCredentials(userName) != null)
-            errors.rejectValue("userName", "duplicate");
+		else {
+			User loggedUser = sessionData.getLoggedUser();
+			if ((this.credentialsService.getCredentials(userName) != null)&&(!userName.equals(loggedUser.getFirstName())))
+			    errors.rejectValue("userName", "duplicate");
+		}
 
         if (password.isEmpty())
             errors.rejectValue("password", "required");

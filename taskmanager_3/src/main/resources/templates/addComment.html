@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org">
-	<link rel="stylesheet" type="text/css" href="../static/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../../../../css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../../../../css/cssButton.css"></link>
 <head>
 <title>TaskManager</title>
 </head>
@@ -10,7 +11,7 @@
 
 	<h1>Share a Project</h1>
 
-	<form id="shareProjectForm"
+	<form id="addCommentForm"
 		th:action="@{'/projects/' + ${project.id} + '/task/' + ${task.id} + '/addComment'}" method="POST">
 
 		<table>

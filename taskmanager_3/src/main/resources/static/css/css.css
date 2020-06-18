@@ -13,7 +13,7 @@ h3 {
 h4{
 	font-size:large;
 	text-decoration: none;
-	font:  90% calibri;
+	font:  95% calibri;
 	
 }
 
@@ -23,7 +23,7 @@ div#container {
 
 
 a { 
-	font-size:large;
+	font:100 ;
 	text-decoration: none;
 	color: #1E90FF;
 	padding-bottom: 1px;
@@ -38,6 +38,11 @@ footer{
 	 position:absolute;
 	 top:20%; 
 	 left: 90%;
+}
+
+table{
+	margin-top:10%;
+	
 }
 
 

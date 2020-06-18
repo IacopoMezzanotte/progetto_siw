@@ -61,7 +61,8 @@ public class SessionData {
      * Store the Credentials and User objects for the currently logged user in Session
      */
     private void update() {
-        UserDetails loggedUserDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails loggedUserDetails = (UserDetails) obj;
         this.credentials = this.credentialsRepository.findByUserName(loggedUserDetails.getUsername()).get(); // can never be absent
         this.credentials.setPassword("[PROTECTED]");
         this.user = this.credentials.getUser();

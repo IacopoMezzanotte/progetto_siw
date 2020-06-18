@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org">
+	<link rel="stylesheet" type="text/css" href="../../../../css/cssButton.css"></link>
 <head>
 <meta charset="UTF-8">
 <title>TaskManager</title>
@@ -8,7 +9,7 @@
 
 <body>
 	<h1 th:text="${project.name}"></h1>
-	<h4 th:text="${project.description}" style="color: green"></h4>
+	<h3 th:text="${project.description}" style="color: green"></h3>
 	<a th:href="'/projects/' + ${project.id} + '/update'">Update</a>
 	<div th:if="${members.size()>0}">
 
