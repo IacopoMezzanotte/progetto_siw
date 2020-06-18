@@ -7,4 +7,4 @@ just you have to click the register link an insert your datas into the form
 # to login 
 just click on the login link and insert your username and password
 
-before the login you must register you credentials in the register form
+before the login you must register you credentials in the register form.
