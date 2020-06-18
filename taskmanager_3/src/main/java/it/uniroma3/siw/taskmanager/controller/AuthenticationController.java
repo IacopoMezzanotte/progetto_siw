@@ -2,6 +2,7 @@ package it.uniroma3.siw.taskmanager.controller;
 
 import it.uniroma3.siw.taskmanager.controller.session.SessionData;
 import it.uniroma3.siw.taskmanager.controller.validation.CredentialsValidator;
+import it.uniroma3.siw.taskmanager.controller.validation.RegistrationValidator;
 import it.uniroma3.siw.taskmanager.controller.validation.UserValidator;
 import it.uniroma3.siw.taskmanager.model.Credentials;
 import it.uniroma3.siw.taskmanager.model.User;
@@ -29,8 +30,8 @@ public class AuthenticationController {
     UserValidator userValidator;
 
     @Autowired
-    CredentialsValidator credentialsValidator;
-
+    RegistrationValidator registrationValidator;
+    
     @Autowired
     SessionData sessionData;
 
@@ -65,7 +66,7 @@ public class AuthenticationController {
 
         // validate user and credentials fields
         this.userValidator.validate(user, userBindingResult);
-        this.credentialsValidator.validate(credentials, credentialsBindingResult);
+        this.registrationValidator.validate(credentials, credentialsBindingResult);
 
         // if neither of them had invalid contents, store the User and the Credentials into the DB
         if(!userBindingResult.hasErrors() && ! credentialsBindingResult.hasErrors()) {
