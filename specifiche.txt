@@ -1,0 +1,81 @@
+here's a short description of  taskmanager's use cases 
+
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER REGISTRARSI 
+  un utente può scegliere di registrarsi nel sistema inserendo username password nome e cognome
+  
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER FARE IL LOGIN 
+  previa registrazione, un utente può scegliere di fare il login nell'app inserendo username e password
+ 
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER AGGIORNARE IL SUO PROFILO
+ un utente dopo essersi loggato, può scegliere di aggiornare il suo profilo reimpostando username password nome e cognome
+ 
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER CREARE UN NUOVO PROGETTO
+  un utente che sta utilizzando il sistema può scegliere di creare un nuovo progetto inserendo nome e descrizione del progetto cliccando
+  sull'apposito link e compilando la form relativa
+
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER VISUALIZZARE I PROGETTI DA LUI CREATI
+  un utente che sta utilizzando il sistema può visualizzare i progetti da lui creati scegliendo l'apposito link
+  
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER CANCELLARE UN SUO PROGETTO
+  un utente può cancellare un suo progetto scegliendo il tasto delete relativo a un singolo progetto dalla lista di progetti da lui       creati
+  
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER VISUALIZZARE I PROGETTI CONDIVISI CON LUI
+  un utente può visualizzare i progetti condivisi con lui cliccando scegliendo l'apposito link
+
+===================================================================================================================================
+UN UTENTE UTLIZZA IL SISTEMA PER VISUALIZZARE I DETTAGLI DI UN PROGETTO
+  un utente può visualizzare i dettagli di un progetto condiviso o creato accedendto tramite le rispettive liste e cliccando sul nome     del progetto saranno visualizzate a scermo: nome e descrizione del progetto, gli utenti che hanno visibilità sul progetto, le task  
+  relative al progetto e le tag relative al progetto
+
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER CONDIVIDERE UN PROGETTO
+  un utente proprietario del progetto può condividerlo tramite l'apposito link nella vista del progetto e riempiendo la relativa form
+  con lo username dell'utente a cui si vuole dare visibilità del progetto
+    
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER VISUALIZZARE E MODIFICARE LE TASK DI UN PROGETTO
+  un utente che sta visionando un progetto può cliccare sul nome di una task per visualizzare le informazioni a essa relative quali:       nome e descrizione della task, i lavoratori di quella task e le tag a essa correlate.
+  Un utente può scegliere di modificare la task cliccando sugli appositi link e riempiendo le relative form.
+  
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER CANCELLARE UNA TASK
+  un utente proprietario di un progetto può sceliere di eliminare una task tramite la vista del progetto cliccando sull'apposito bottone
+  
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER ASSEGNARE UNA TASK A UNO USER
+  un utente proprietario di un progetto può assegnare una task precedentemnte creata ad un utente che ha visibilià del progetto
+  accedendo alla vista della task tramite l'apposito link e cliccando sul link per aggiungere uno worker e selezionandolo da un elenco
+
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER CREARE E ASSEGNARE UNA TAG A UN PROGETTO
+  un utente che ha visibilità di un progetto può aggiungere una tag al progetto cliccando sull'apposito link nella vista del progetto
+  e riempiendo la specifica form
+
+===================================================================================================================================
+ UN UTENTE UTILIZZA IL SISTEMA PER MODIFICARE UNA TAG A UN PROGETTO
+  un utente proprietario di un progetto può modificare la tag assegnata al progetto accedendo alla sua vista tramite il link apposto nella vista del progetto e cliccando sul link di update
+  
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER ASSEGNARE UN TAG A UN TASK 
+  un utente proprietario del sistema puo aggiungere una tag a un task solo se è proprietario del progetto cliccando l'apposito link 
+  nella vista del tag e selzionando dall' elelnco il tag deisderato. il tag deve essere creato precedentemente.
+  
+===================================================================================================================================
+UN UTENTE UTENTE UTILIZZA IL SISTEMA PER CANCELLARE UNA TAG
+  un utente può eliminare una task da un progetto tramite l'apposito pulsante nella vista del progetto
+  
+===================================================================================================================================
+ UN UTENTE REGISTRATO COME ADMIN UTILIZZA IL SISTEMA PER CANCELLARE UN UTENTE
+   un utente loggato come admin può utilizzare il sistema per eliminare uno user tramite l'apposito elenco
+   
+ 
+===================================================================================================================================
+UN UTENTE UTILIZZA IL SISTEMA PER FARE LOGOUT
+    un utente che utilizza il sistema può fare logout cliccando sull'apposito link 
